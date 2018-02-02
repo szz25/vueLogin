@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="box">
+        <span>用户名:</span>{{user}}
+        <span>密  码:</span>{{pass}}
+    </div>
+</body>
+<script src="vue.min.js"></script>
+<script>
+    const id = window.location.href.split('?')[1];
+    const win = window.localStorage;
+    const into = JSON.parse(win.getItem('into'));
+    const vm = new Vue({
+        el: "#box",
+        data: {
+            user: "",
+            pass: ""
+        }
+    })
+    into.forEach((v, i) => {
+        if (id == i) {
+            vm.user = v.user;
+            vm.pass = v.pass;
+        }
+    })
+</script>
+
+</html>

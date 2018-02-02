@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .bg {
+            width: 100px;
+            height: 30px;
+            background: red;
+            color: #fff;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <form action="" required>
+            <span>用户名:</span><input type="text" v-model="user"><br/>
+            <span>密 &nbsp;&nbsp;码 :</span><input type="password" v-model="pass"><br/>
+            <input type="button" value="注册" @click="click" :class="bg">
+        </form>
+        <form action="" required>
+            <span>用户名:</span><input type="text" v-model="userD"><br/>
+            <span>密 &nbsp;&nbsp;码 :</span><input type="password" v-model="passD">
+            <br/>
+            <input type="button" value="登录" @click="clickD" :class="bg">
+        </form>
+    </div>
+</body>
+<script src="vue.min.js"></script>
+<script>
+    const vm = new Vue({
+        el: "#box",
+        data: {
+            user: "",
+            pass: "",
+            userD: "",
+            passD: "",
+            msg: "",
+            bg: "bg",
+            url: ''
+        },
+        methods: {
+            click() {
+                if (this.user == "" || this.pass == "") {
+                    alert('请输入用户名或密码')
+                } else {
+                    const win = window.localStorage;
+                    if (!win.getItem('into')) {
+                        win.setItem('into', '[]');
+                    }
+                    const into = JSON.parse(win.getItem('into'));
+                    into.push({
+                        user: this.user,
+                        pass: this.pass
+                    })
+                    win.setItem('into', JSON.stringify(into))
+                    this.user = "";
+                    this.pass = "";
+                }
+            },
+            clickD() {
+                if (this.userD == "" || this.passD == "") {
+                    alert('请输入用户名或密码')
+                } else {
+                    const win = window.localStorage;
+                    const into = JSON.parse(win.getItem('into'));
+                    let bool = false;
+                    let id = null;
+                    into.forEach((v, i) => {
+                        if (this.userD == v.user && this.passD == v.pass) {
+                            bool = true
+                            id = i;
+                        }
+                    })
+                    if (bool) {
+                        window.location.href = 'file:///C:/Users/%E6%98%A5%E8%B5%B7/Desktop/vue/two.html?' + id;
+                    } else {
+                        alert('你的用户名或密码错误')
+                    }
+                    this.userD = "";
+                    this.passD = "";
+                }
+            }
+        }
+    })
+</script>
+
+</html>
